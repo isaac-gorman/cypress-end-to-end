@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Route, Link } from "react-router-dom";
 import "./App.css";
 import Form from "./components/Form/Form";
 import RecipeCard from "./components/Form/RecipeCard";
@@ -15,13 +16,30 @@ export default function App() {
 
   return (
     <div className="App">
+      <header>
+        <ul>
+          <Link to="/">My Recipes</Link>
+          <Link to="/form">+ Add Recipe</Link>
+        </ul>
+      </header>
       <h1>Recipe App</h1>
-      <Form submit={submit} />
+      <Route path="/form">
+        <Form submit={submit} />
+      </Route>
+
       {recipesList.map((recipeObj, index) => {
-        return <RecipeCard key={index} recipeObj={recipeObj} />;
+        return (
+          <Route exact path="/">
+            <RecipeCard key={index} recipeObj={recipeObj} />
+          </Route>
+        );
       })}
       {recipesList.map((recipeObj, index) => {
-        return <RecipePage key={index} recipeObj={recipeObj} />;
+        return (
+          <Route exact path="/recipe-page">
+            <RecipePage key={index} recipeObj={recipeObj} />
+          </Route>
+        );
       })}
     </div>
   );
