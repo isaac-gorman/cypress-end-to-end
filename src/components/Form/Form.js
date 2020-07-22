@@ -1,32 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default function Form() {
+export default function Form(props) {
+  const defaultState = {
+    recipeName: "",
+    cookingTime: "",
+    mealType: "",
+    imageURL: "",
+    ingredients: "",
+  };
+
+  const [formState, setFormState] = useState(defaultState);
+
+  const handleChange = (e) => {
+    setFormState({ ...formState, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(formState);
+    props.submit(formState);
+    setFormState(defaultState);
+  };
+
   return (
     <div className="form-wrapper">
-      <form className="form" action="">
+      <form className="form" onSubmit={(e) => handleSubmit(e)}>
         <h2>Add a Recipe +</h2>
-        <label className="reg-label" htmlFor="recipe-name">
+        <label className="reg-label" htmlFor="recipeName">
           Name Of Recipe
           <br />
-          <input type="text" name="recipe-name" />
+          <input
+            type="text"
+            name="recipeName"
+            value={formState.recipeName}
+            onChange={(e) => handleChange(e)}
+          />
         </label>
         <br />
         <br />
-        <label className="reg-label" htmlFor="time">
+        <label className="reg-label" htmlFor="cookingTime">
           Estimated Cooking Time?
           <br />
-          <select>
+          <select
+            name="cookingTime"
+            value={formState.cookingTime}
+            onChange={(e) => handleChange(e)}
+          >
             <option value="">--Select--</option>
-            <option value="">30 mins</option>
-            <option value="">45 mins</option>
-            <option value="">60 mins</option>
+            <option value="30mins">30 mins</option>
+            <option value="45mins">45 mins</option>
+            <option value="60mins">60 mins</option>
           </select>
         </label>
 
         <br />
         <br />
 
-        <label className="allergies-title">Allergies</label>
+        {/* <label className="allergies-title">Allergies</label>
         <div className="allergies-wrapper">
           <div>
             <input type="checkbox" name="nuts" />
@@ -56,37 +86,53 @@ export default function Form() {
             <input type="checkbox" name="wheat" />
             <label htmlFor="wheat">Wheat</label>
           </div>
-        </div>
+        </div> */}
         <br />
         <br />
-        <label className="reg-label" htmlFor="time">
+        <label className="reg-label" htmlFor="mealType">
           What type of meal is this?
           <br />
-          <select>
+          <select
+            name="mealType"
+            value={formState.mealType}
+            onChange={(e) => handleChange(e)}
+          >
             <option value="">--Select--</option>
-            <option value="">Breakfast</option>
-            <option value="">Lunch</option>
-            <option value="">Dinner</option>
+            <option value="breakfast">Breakfast</option>
+            <option value="lunch">Lunch</option>
+            <option value="dinner">Dinner</option>
           </select>
         </label>
         <br />
         <br />
         <br />
         <br />
-        <label className="reg-label" htmlFor="time">
+        <label className="reg-label" htmlFor="imageURL">
           Image of Meal
           <br />
-          <input type="text" name="time" />
+          <input
+            type="text"
+            name="imageURL"
+            value={formState.imageURL}
+            onChange={(e) => handleChange(e)}
+          />
         </label>
         <br />
         <br />
         <br />
         <br />
-        <label className="reg-label" htmlFor="time">
+        <label className="reg-label" htmlFor="ingredients">
           Ingredients
           <br />
-          <textarea name="ingredients" />
+          <textarea
+            name="ingredients"
+            value={formState.ingredients}
+            onChange={(e) => handleChange(e)}
+          />
         </label>
+        <br />
+        <br />
+        <button>Create!</button>
         <br />
         <br />
       </form>
