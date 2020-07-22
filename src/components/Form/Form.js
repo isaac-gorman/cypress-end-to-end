@@ -101,6 +101,8 @@ export default function Form(props) {
             <option value="breakfast">Breakfast</option>
             <option value="lunch">Lunch</option>
             <option value="dinner">Dinner</option>
+            <option value="dessert">Dessert</option>
+            <option value="snack">Snack</option>
           </select>
         </label>
         <br />
