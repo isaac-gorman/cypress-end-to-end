@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+// Use uuid
 
 export default function Form(props) {
   const defaultState = {
@@ -7,6 +9,7 @@ export default function Form(props) {
     mealType: "",
     imageURL: "",
     ingredients: "",
+    id: "",
   };
 
   const [formState, setFormState] = useState(defaultState);
@@ -134,7 +137,11 @@ export default function Form(props) {
         </label>
         <br />
         <br />
+        {/* useHistory.push() */}
+        {/* <Link to="/"> */}
         <button>Create!</button>
+        {/* </Link> */}
+
         <br />
         <br />
       </form>

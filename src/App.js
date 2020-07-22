@@ -36,7 +36,7 @@ export default function App() {
       })}
       {recipesList.map((recipeObj, index) => {
         return (
-          <Route exact path="/recipe-page">
+          <Route exact path={`/recipe-page/:id`}>
             <RecipePage key={index} recipeObj={recipeObj} />
           </Route>
         );
