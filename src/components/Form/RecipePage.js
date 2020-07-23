@@ -1,36 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
 
-export default function RecipePage(props) {
-  const [recipe, setRecipe] = useState();
+export default function RecipePage({ recipe }) {
+  // const [recipe, setRecipe] = useState();
 
-  const { id } = useParams;
+  const params = useParams();
+  console.log("I am params", params);
+  console.log("I am params id", params.id);
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:3000//recipe-page/${id}`)
-      .then((res) => {
-        setRecipe(res.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [id]);
+  const recipes = recipe.find((item) => item.id == params.id);
+  console.log("I am params recipe", recipe);
+  console.log("I am params Recipes", recipes);
 
-  const { imageURL, recipeName, cookingTime, ingredients } = recipe;
+  // const { imageURL, recipeName, cookingTime, ingredients } = recipe;
   return (
     <div>
       <div>
-        <img src={imageURL} alt="" />
+        <img src={recipes.imageURL} alt="" />
         <div>
-          <h1>{recipeName}</h1>
-          <p>Estimated Prep Time: {cookingTime}</p>
+          <h1>{recipes.recipeName}</h1>
+          <p>Estimated Prep Time: {recipes.cookingTime}</p>
         </div>
       </div>
       <div>
         <h2>Ingredients</h2>
-        <p>{ingredients}</p>
+        <p>{recipes.ingredients}</p>
       </div>
     </div>
   );

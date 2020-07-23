@@ -11,7 +11,9 @@ export default function App() {
   const submit = (input) => {
     const copyRecipeList = [...recipesList];
     copyRecipeList.push(input);
-    return setRecipeList(copyRecipeList);
+    setRecipeList(copyRecipeList);
+    console.log("I am the recipesList", recipesList);
+    console.log("I am the input", input);
   };
 
   return (
@@ -26,21 +28,32 @@ export default function App() {
       <Route path="/form">
         <Form submit={submit} />
       </Route>
+      <Route exact path="/">
+        <RecipeCard recipes={recipesList} />
+      </Route>
 
-      {recipesList.map((recipeObj, index) => {
+      {/* {recipesList.map((recipeObj, index) => {
         return (
           <Route exact path="/">
             <RecipeCard key={index} recipeObj={recipeObj} />
           </Route>
         );
-      })}
-      {recipesList.map((recipeObj, index) => {
+      })} */}
+
+      <Route exact path="/recipe-page/:id">
+        <RecipePage key={recipesList.id} recipe={recipesList} />
+      </Route>
+      {/* {recipesList.map((recipeObj, index) => {
+        console.log("I am the recipe list passed to Recipe Page", recipesList);
         return (
           <Route exact path={`/recipe-page/:id`}>
             <RecipePage key={index} recipeObj={recipeObj} />
           </Route>
         );
-      })}
+      })} */}
     </div>
   );
 }
+
+// Import {useHistory } from "react-router-dom"
+//

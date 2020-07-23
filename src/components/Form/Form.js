@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-// Use uuid
+import { v4 as uuid } from "uuid";
 
 export default function Form(props) {
   const defaultState = {
@@ -9,7 +9,7 @@ export default function Form(props) {
     mealType: "",
     imageURL: "",
     ingredients: "",
-    id: "",
+    id: uuid(),
   };
 
   const [formState, setFormState] = useState(defaultState);
