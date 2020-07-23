@@ -1,6 +1,16 @@
-import React, { useState } from "react";
+// Next construct form validation...
+// [x] - Import yup to construct the validation schema
+// [x] - Create the yup validation schema and define each requirement
+// [x] - Create a function that excutes to check user inputs against the validation schema. Use:
+// [x] - -  e.presist()
+// [x] - -  .reach() to reach into the formSchema, and pass it the values of each name attribute of the form inputs.
+// [x] - Disable the button till all the requirments of the validation schema are meet.
+// [] - use useEffect to preform a side effect to undisable the submit button once the users input passes the validation schema. To do this I must synchronize with formStates values.
+
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { v4 as uuid } from "uuid";
+import * as yup from "yup";
 
 export default function Form(props) {
   const defaultState = {
@@ -13,9 +23,42 @@ export default function Form(props) {
   };
 
   const [formState, setFormState] = useState(defaultState);
+  const [errors, setErrors] = useState({ ...defaultState });
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+
+  const formSchema = yup.object().shape({
+    recipeName: yup.string().required("Please provide a name for your recipe!"),
+    // cookingTime: yup.,
+    // mealType: yup.,
+    imageURL: yup
+      .string()
+      .required("Please provide an image URL of your recipe"),
+    ingredients: yup
+      .string()
+      .required("Please provide ingredients for your recipe"),
+  });
+
+  useEffect(() => {
+    formSchema.isValid(formState).then((valid) => setButtonDisabled(!valid));
+  }, [formSchema, formState]);
+
+  function validateChange(e) {
+    e.persist();
+
+    yup
+      .reach(formSchema, e.target.name)
+      .validate(e.target.value)
+      .then((valid) => {
+        setErrors({ ...errors, [e.target.name]: "" });
+      })
+      .catch((error) => {
+        setErrors({ ...errors, [e.target.name]: error.errors[0] });
+      });
+  }
 
   const handleChange = (e) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
+    validateChange(e);
   };
 
   const handleSubmit = (e) => {
@@ -38,6 +81,11 @@ export default function Form(props) {
             value={formState.recipeName}
             onChange={(e) => handleChange(e)}
           />
+          {errors.recipeName.length > 0 ? (
+            <p style={{ color: "red", fontSize: ".55em" }}>
+              {errors.recipeName}
+            </p>
+          ) : null}
         </label>
         <br />
         <br />
@@ -121,6 +169,9 @@ export default function Form(props) {
             value={formState.imageURL}
             onChange={(e) => handleChange(e)}
           />
+          {errors.imageURL.length > 0 ? (
+            <p style={{ color: "red", fontSize: ".55em" }}>{errors.imageURL}</p>
+          ) : null}
         </label>
         <br />
         <br />
@@ -134,12 +185,17 @@ export default function Form(props) {
             value={formState.ingredients}
             onChange={(e) => handleChange(e)}
           />
+          {errors.ingredients.length > 0 ? (
+            <p style={{ color: "red", fontSize: ".55em" }}>
+              {errors.ingredients}
+            </p>
+          ) : null}
         </label>
         <br />
         <br />
         {/* useHistory.push() */}
         {/* <Link to="/"> */}
-        <button>Create!</button>
+        <button disabled={buttonDisabled}>Create!</button>
         {/* </Link> */}
 
         <br />
