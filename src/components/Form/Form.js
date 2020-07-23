@@ -27,14 +27,19 @@ export default function Form(props) {
   const [buttonDisabled, setButtonDisabled] = useState(true);
 
   const formSchema = yup.object().shape({
-    recipeName: yup.string().required("Please provide a name for your recipe!"),
+    recipeName: yup
+      .string()
+      .min(4, "Please provide a name for your recipe")
+      .required("Please provide a name for your recipe"),
     cookingTime: yup.string(),
     mealType: yup.string(),
     imageURL: yup
       .string()
+      .min(10, "Please provide an image URL of your recipe")
       .required("Please provide an image URL of your recipe"),
     ingredients: yup
       .string()
+      .min(15, "Please provide ingredients for your recipe")
       .required("Please provide ingredients for your recipe"),
   });
 
