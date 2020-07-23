@@ -28,8 +28,8 @@ export default function Form(props) {
 
   const formSchema = yup.object().shape({
     recipeName: yup.string().required("Please provide a name for your recipe!"),
-    // cookingTime: yup.,
-    // mealType: yup.,
+    cookingTime: yup.string(),
+    mealType: yup.string(),
     imageURL: yup
       .string()
       .required("Please provide an image URL of your recipe"),
@@ -76,6 +76,7 @@ export default function Form(props) {
           Name Of Recipe
           <br />
           <input
+            data-cy="recipeName"
             type="text"
             name="recipeName"
             value={formState.recipeName}
@@ -93,6 +94,7 @@ export default function Form(props) {
           Estimated Cooking Time?
           <br />
           <select
+            data-cy="cookingTime"
             name="cookingTime"
             value={formState.cookingTime}
             onChange={(e) => handleChange(e)}
@@ -144,6 +146,7 @@ export default function Form(props) {
           What type of meal is this?
           <br />
           <select
+            data-cy="mealType"
             name="mealType"
             value={formState.mealType}
             onChange={(e) => handleChange(e)}
@@ -164,6 +167,7 @@ export default function Form(props) {
           Image of Meal
           <br />
           <input
+            data-cy="imageURL"
             type="text"
             name="imageURL"
             value={formState.imageURL}
@@ -181,6 +185,7 @@ export default function Form(props) {
           Ingredients
           <br />
           <textarea
+            data-cy="ingredients"
             name="ingredients"
             value={formState.ingredients}
             onChange={(e) => handleChange(e)}
@@ -195,7 +200,9 @@ export default function Form(props) {
         <br />
         {/* useHistory.push() */}
         {/* <Link to="/"> */}
-        <button disabled={buttonDisabled}>Create!</button>
+        <button data-cy="create" disabled={buttonDisabled}>
+          Create!
+        </button>
         {/* </Link> */}
 
         <br />
