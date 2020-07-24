@@ -21,6 +21,7 @@ export default function RecipePage({ recipe }) {
         <div>
           <h1>{recipes.recipeName}</h1>
           <p>Estimated Prep Time: {recipes.cookingTime}</p>
+          <p>Allergies: {recipes.allergies}</p>
         </div>
       </div>
       <div>

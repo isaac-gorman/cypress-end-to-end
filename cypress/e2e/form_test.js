@@ -20,6 +20,10 @@ describe("from test", () => {
       .select("30mins")
       .should("have.value", "30mins");
 
+    // cy.get(".allergies-wrapper").check([])
+    cy.get("[data-cy=nuts]").check();
+    cy.get("[data-cy=shell-fish]").check();
+
     cy.get("[data-cy=mealType]")
       .select("breakfast")
       .should("have.value", "breakfast");
@@ -41,5 +45,7 @@ describe("from test", () => {
         "have.value",
         "1 cup butter, softened1 cup white sugar C&H Pure Cane Granulated Sugar 4 Lb $1.78 for 1 item - expires in 3 weeks 1 cup packed brown sugar2 eggs2 teaspoons vanilla extract1 teaspoon baking soda2 teaspoons hot water1/2 teaspoon salt3 cups all-purpose flour2 cups semisweet chocolate chips1 cup chopped walnuts"
       );
+
+    cy.get("[data-cy=create]").click();
   });
 });

@@ -16,6 +16,7 @@ export default function Form(props) {
   const defaultState = {
     recipeName: "",
     cookingTime: "",
+    allergies: "",
     mealType: "",
     imageURL: "",
     ingredients: "",
@@ -32,6 +33,7 @@ export default function Form(props) {
       .min(4, "Please provide a name for your recipe")
       .required("Please provide a name for your recipe"),
     cookingTime: yup.string(),
+    allergies: yup.string(),
     mealType: yup.string(),
     imageURL: yup
       .string()
@@ -114,37 +116,67 @@ export default function Form(props) {
         <br />
         <br />
 
-        {/* <label className="allergies-title">Allergies</label>
+        <label className="allergies-title">Allergies</label>
         <div className="allergies-wrapper">
           <div>
-            <input type="checkbox" name="nuts" />
+            <input
+              data-cy="nuts"
+              type="checkbox"
+              name="nuts"
+              value={formState.allergies}
+            />
             <label htmlFor="nuts">Nuts</label>
           </div>
           <div>
-            <input type="checkbox" name="shell-fish" />
+            <input
+              data-cy="shell-fish"
+              type="checkbox"
+              name="shell-fish"
+              value={formState.allergies}
+            />
             <label htmlFor="shell-fish">Shell Fish</label>
           </div>
 
           <div>
-            <input type="checkbox" name="eggs" />
+            <input
+              data-cy="eggs"
+              type="checkbox"
+              name="eggs"
+              value={formState.allergies}
+            />
             <label htmlFor="eggs">Eggs</label>
           </div>
 
           <div>
-            <input type="checkbox" name="soy" />
+            <input
+              data-cy="soy"
+              type="checkbox"
+              name="soy"
+              value={formState.allergies}
+            />
             <label htmlFor="soy">Soy</label>
           </div>
 
           <div>
-            <input type="checkbox" name="milk" />
+            <input
+              data-cy="soy"
+              type="checkbox"
+              name="milk"
+              value={formState.allergies}
+            />
             <label htmlFor="milk">Milk</label>
           </div>
 
           <div>
-            <input type="checkbox" name="wheat" />
+            <input
+              data-cy="wheat"
+              type="checkbox"
+              name="wheat"
+              value={formState.allergies}
+            />
             <label htmlFor="wheat">Wheat</label>
           </div>
-        </div> */}
+        </div>
         <br />
         <br />
         <label className="reg-label" htmlFor="mealType">
