@@ -11,12 +11,14 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import * as yup from "yup";
+import axios from "axios";
 
 export default function Form(props) {
   const defaultState = {
     recipeName: "",
     cookingTime: "",
-    allergies: "",
+    none: false,
+    nuts: false,
     mealType: "",
     imageURL: "",
     ingredients: "",
@@ -26,52 +28,71 @@ export default function Form(props) {
   const [formState, setFormState] = useState(defaultState);
   const [errors, setErrors] = useState({ ...defaultState });
   const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [post, setPost] = useState([]);
 
-  const formSchema = yup.object().shape({
-    recipeName: yup
-      .string()
-      .min(4, "Please provide a name for your recipe")
-      .required("Please provide a name for your recipe"),
-    cookingTime: yup.string(),
-    allergies: yup.string(),
-    mealType: yup.string(),
-    imageURL: yup
-      .string()
-      .min(10, "Please provide an image URL of your recipe")
-      .required("Please provide an image URL of your recipe"),
-    ingredients: yup
-      .string()
-      .min(15, "Please provide ingredients for your recipe")
-      .required("Please provide ingredients for your recipe"),
-  });
-
-  useEffect(() => {
-    formSchema.isValid(formState).then((valid) => setButtonDisabled(!valid));
-  }, [formSchema, formState]);
-
-  function validateChange(e) {
-    e.persist();
-
-    yup
-      .reach(formSchema, e.target.name)
-      .validate(e.target.value)
-      .then((valid) => {
-        setErrors({ ...errors, [e.target.name]: "" });
+  const submitInput = (e) => {
+    console.log("I am the input", e);
+    axios
+      .post("https://reqres.in/api/users", formState)
+      .then((res) => {
+        setPost(res.data);
+        console.log("success", res.data);
       })
-      .catch((error) => {
-        setErrors({ ...errors, [e.target.name]: error.errors[0] });
+      .catch((err) => {
+        console.log(err.response);
       });
-  }
+  };
+
+  // const formSchema = yup.object().shape({
+  //   recipeName: yup
+  //     .string()
+  //     .min(4, "Please provide a name for your recipe")
+  //     .required("Please provide a name for your recipe"),
+  //   cookingTime: yup.string(),
+  //   allergies: yup.string(),
+  //   mealType: yup.string(),
+  //   imageURL: yup
+  //     .string()
+  //     .min(10, "Please provide an image URL of your recipe")
+  //     .required("Please provide an image URL of your recipe"),
+  //   ingredients: yup
+  //     .string()
+  //     .min(15, "Please provide ingredients for your recipe")
+  //     .required("Please provide ingredients for your recipe"),
+  // });
+
+  // useEffect(() => {
+  //   formSchema.isValid(formState).then((valid) => setButtonDisabled(!valid));
+  // }, [formSchema, formState]);
+
+  // function validateChange(e) {
+  //   e.persist();
+
+  //   yup
+  //     .reach(formSchema, e.target.name)
+  //     .validate(e.target.value)
+  //     .then((valid) => {
+  //       setErrors({ ...errors, [e.target.name]: "" });
+  //     })
+  //     .catch((error) => {
+  //       setErrors({ ...errors, [e.target.name]: error.errors[0] });
+  //     });
+  // }
 
   const handleChange = (e) => {
-    setFormState({ ...formState, [e.target.name]: e.target.value });
-    validateChange(e);
+    const value =
+      e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    setFormState({ ...formState, [e.target.name]: value });
+    // setFormState({ ...formState, [e.target.name]: e.target.value });
+    console.log("formState: ", formState);
+    // validateChange(e);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formState);
     props.submit(formState);
+    submitInput(formState);
     setFormState(defaultState);
   };
 
@@ -118,6 +139,19 @@ export default function Form(props) {
 
         <label className="allergies-title">Allergies</label>
         <div className="allergies-wrapper">
+          <label htmlFor="none">
+            None
+            <input
+              type="checkbox"
+              name="none"
+              id="none"
+              value={formState.none}
+              onChange={handleChange}
+              // errors={errors}
+            />
+            {/* {formState.terms === false && <p>{errors.terms}</p>} */}
+          </label>
+
           <div>
             <input
               data-cy="nuts"
@@ -127,7 +161,8 @@ export default function Form(props) {
             />
             <label htmlFor="nuts">Nuts</label>
           </div>
-          <div>
+
+          {/* <div>
             <input
               data-cy="shell-fish"
               type="checkbox"
@@ -135,9 +170,9 @@ export default function Form(props) {
               value={formState.allergies}
             />
             <label htmlFor="shell-fish">Shell Fish</label>
-          </div>
+          </div> */}
 
-          <div>
+          {/* <div>
             <input
               data-cy="eggs"
               type="checkbox"
@@ -145,9 +180,9 @@ export default function Form(props) {
               value={formState.allergies}
             />
             <label htmlFor="eggs">Eggs</label>
-          </div>
+          </div> */}
 
-          <div>
+          {/* <div>
             <input
               data-cy="soy"
               type="checkbox"
@@ -155,9 +190,9 @@ export default function Form(props) {
               value={formState.allergies}
             />
             <label htmlFor="soy">Soy</label>
-          </div>
+          </div> */}
 
-          <div>
+          {/* <div>
             <input
               data-cy="soy"
               type="checkbox"
@@ -165,9 +200,9 @@ export default function Form(props) {
               value={formState.allergies}
             />
             <label htmlFor="milk">Milk</label>
-          </div>
+          </div> */}
 
-          <div>
+          {/* <div>
             <input
               data-cy="wheat"
               type="checkbox"
@@ -175,7 +210,7 @@ export default function Form(props) {
               value={formState.allergies}
             />
             <label htmlFor="wheat">Wheat</label>
-          </div>
+          </div> */}
         </div>
         <br />
         <br />
@@ -237,13 +272,15 @@ export default function Form(props) {
         <br />
         {/* useHistory.push() */}
         {/* <Link to="/"> */}
-        <button data-cy="create" disabled={buttonDisabled}>
+        {/* <button data-cy="create" disabled={buttonDisabled}>
           Create!
-        </button>
+        </button> */}
+        <button data-cy="create">Create!</button>
         {/* </Link> */}
 
         <br />
         <br />
+        <pre>{JSON.stringify(post, null, 2)}</pre>
       </form>
     </div>
   );

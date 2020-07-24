@@ -12,8 +12,15 @@ export default function RecipePage({ recipe }) {
   const recipes = recipe.find((item) => item.id == params.id);
   console.log("I am params recipe", recipe);
   console.log("I am params Recipes", recipes);
+  console.log("I am the value of none: ", recipes.none);
 
   // const { imageURL, recipeName, cookingTime, ingredients } = recipe;
+
+  const allergyValues = () => {
+    if (recipes.none === true) {
+      return "None";
+    }
+  };
   return (
     <div>
       <div>
@@ -21,7 +28,11 @@ export default function RecipePage({ recipe }) {
         <div>
           <h1>{recipes.recipeName}</h1>
           <p>Estimated Prep Time: {recipes.cookingTime}</p>
-          <p>Allergies: {recipes.allergies}</p>
+          {/* {Object.values(recipes)} */}
+          {/* {recipes.map()}
+          <p>Allergies: </p> */}
+          {/* <p>Allergies: {recipes.none}</p> */}
+          <p>Allergies: {allergyValues()}</p>
         </div>
       </div>
       <div>
